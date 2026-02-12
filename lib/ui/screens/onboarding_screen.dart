@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_practical_task/logic/onboarding/onboarding_cubit.dart';
 import 'package:flutter_practical_task/ui/widgets/onboarding_page.dart';
-import 'package:flutter_practical_task/utils/constants.dart';
+import 'package:flutter_practical_task/utils/constants/constants.dart';
+import 'package:flutter_practical_task/utils/constants/fonts/label_keys.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -65,7 +66,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         cubit.skipAll(onboardData.length);
                       },
                       child: const Text(
-                        "Skip",
+                        skipKey,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

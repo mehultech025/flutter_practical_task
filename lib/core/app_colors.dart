@@ -1,27 +1,32 @@
 import 'package:flutter/material.dart';
 
+/// Basic
 const Color whiteFFFFFFColor = Color(0xFFFFFFFF);
 const Color black000000Color = Color(0xFF000000);
-const Color black010103Color = Color(0xFF010103);
-const Color black1C1C1EColor = Color(0xFF1C1C1E);
 
+/// Backgrounds
+const Color scaffoldF5F5F7Color = Color(0xFFF5F5F7);
+
+/// Purples
 const Color purple8D15FFColor = Color(0xFF8D15FF);
 const Color purpleB388FFColor = Color(0xFFB388FF);
-const Color purple8C6FC2Color = Color(0xFF8C6FC2);
 
+/// Status
 const Color green30D158Color = Color(0xFF30D158);
 const Color redFF3B30Color = Color(0xFFFF3B30);
 const Color blue007AFFColor = Color(0xFF007AFF);
-const Color blue6517FFColor = Color(0xFF6517FF);
-const Color blue3880CDColor = Color(0xFF3880CD);
 
-const Color gray3C3C43Color = Color(0xFF1C1C1E);
-const Color grayAEAEB2Color = Color(0xFFAEAEB2);
-const Color gray8E8E93Color = Color(0xFF8E8E93);
-const Color grayD1D1D6Color = Color(0xFFD1D1D6);
-const Color gray2C2C2EColor = Color(0xFF2C2C2E);
-const Color grayC7C7CCColor = Color(0xFFC7C7CC);
+/// Soft Status Backgrounds
+const Color todoBgColor = Color(0xFFEAF3FF);
+const Color progressBgColor = Color(0xFFF3E8FF);
+const Color doneBgColor = Color(0xFFE6F9F0);
 
+/// Text
+const Color textPrimaryColor = Color(0xFF111111);
+const Color textSecondaryColor = Color(0xFF6E6E73);
 
+/// Border
+const Color borderE5E5EAColor = Color(0xFFE5E5EA);
 
-
+/// Shadow
+const Color shadow000000Color = Color(0x1A000000);
