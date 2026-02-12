@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-appLightTheme(BuildContext context) {
+ThemeData appLightTheme(BuildContext context) {
   return ThemeData(
     brightness: Brightness.light,
     appBarTheme: Theme.of(context).appBarTheme.copyWith(
