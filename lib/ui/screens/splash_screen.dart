@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_practical_task/router/app_router.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -8,6 +9,23 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Future.delayed(const Duration(seconds: 2));
+      _initApp();
+    });
+
+  }
+
+Future<void> _initApp() async {
+  AppRouter.navigatorKey.currentState?.pushNamedAndRemoveUntil(
+    AppRouter.onboarding,
+        (route) => false,
+  );
+  }
 
   @override
   Widget build(BuildContext context) {
