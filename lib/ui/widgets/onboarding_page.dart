@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_practical_task/utils/constants.dart';
+import 'package:flutter_practical_task/utils/constants/constants.dart';
 import 'onboarding_subtitle.dart';
 
 class OnboardingPage extends StatelessWidget {

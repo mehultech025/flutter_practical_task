@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_practical_task/router/app_router.dart';
+import 'package:flutter_practical_task/utils/constants/fonts/label_keys.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -42,7 +43,7 @@ Future<void> _initApp() async {
             ),
             SizedBox(height: 16),
             Text(
-              'My App',
+              splashKey,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 24,

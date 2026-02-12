@@ -31,9 +31,8 @@ class OnboardingCubit extends Cubit<OnboardingState> {
     }else{
       if (!_hasNavigated) {
         _hasNavigated = true;
-
         AppRouter.navigatorKey.currentState?.pushReplacementNamed(
-          AppRouter.login,
+          AppRouter.todo,
         );
       }
     }
