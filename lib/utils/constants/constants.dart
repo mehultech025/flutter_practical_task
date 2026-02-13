@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_practical_task/core/app_colors.dart';
+
+import 'fonts/label_keys.dart';
 
 class OnboardItem {
   final String title;
@@ -56,3 +59,26 @@ final List<OnboardItem> onboardData = [
     color: Colors.deepPurple,
   ),
 ];
+
+
+String formatTime(int minutes, int seconds) {
+  final m = minutes.toString().padLeft(2, '0');
+  final s = seconds.toString().padLeft(2, '0');
+  return "$m:$s";
+}
+
+Color getStatusColor(String status) {
+  switch (status) {
+    case inProgressStatusKey:
+      return purple8D15FFColor;
+
+    case pausedStatusKey:
+      return Colors.orange;
+
+    case doneStatusKey:
+      return green30D158Color;
+
+    default:
+      return blue007AFFColor;
+  }
+}
