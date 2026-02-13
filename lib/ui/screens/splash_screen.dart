@@ -27,6 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     final authBox = Hive.box('auth');
     bool isLogin = authBox.get('isLogin', defaultValue: false);
+    print(isLogin);
     if (isLogin) {
       AppRouter.navigatorKey.currentState?.pushNamedAndRemoveUntil(
         AppRouter.todo,

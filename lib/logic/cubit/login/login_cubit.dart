@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart' show FirebaseFirestore;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_practical_task/logic/cubit/internet/internet_cubit.dart';
+import 'package:flutter_practical_task/services/notification_services.dart';
 import 'package:flutter_practical_task/utils/constants/fonts/label_keys.dart';
 import 'package:hive/hive.dart';
 
@@ -34,6 +35,11 @@ class LoginCubit extends Cubit<LoginState> {
           'password': password,
           'createdAt': DateTime.now(),
         });
+        NotificationService.showNotification(
+          id: DateTime.now().millisecondsSinceEpoch ~/ 1000,
+          title: welcomeKey,
+          body: successfullyLoginKey,
+        );
         Hive.box('auth').put('isLogin', true);
         emit(LoginSuccess());
       } catch (e) {

@@ -115,7 +115,9 @@ class _TodoScreenState extends State<TodoScreen> {
                       color: whiteFFFFFFColor.withOpacity(0.9),
                     ),
                     IconButton(
-                      onPressed: () => _showLogoutDialog,
+                      onPressed: () {
+                        _showLogoutDialog();
+                      },
                       icon: const Icon(Icons.logout, color: whiteFFFFFFColor),
                     ),
                   ],

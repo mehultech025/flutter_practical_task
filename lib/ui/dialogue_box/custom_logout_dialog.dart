@@ -21,7 +21,6 @@ class CustomLogoutDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
 
-            /// Top Icon
             Container(
               padding: const EdgeInsets.all(15),
               decoration: const BoxDecoration(
@@ -58,7 +57,6 @@ class CustomLogoutDialog extends StatelessWidget {
             Row(
               children: [
 
-                /// Cancel Button
                 Expanded(
                   child: OutlinedButton(
                     onPressed: () {
@@ -75,7 +73,6 @@ class CustomLogoutDialog extends StatelessWidget {
 
                 const SizedBox(width: 12),
 
-                /// Logout Button
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () async {
@@ -90,12 +87,12 @@ class CustomLogoutDialog extends StatelessWidget {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
+                      backgroundColor: purple8D15FFColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: const Text("Logout"),
+                    child: const Text("Logout",style: TextStyle(color: Colors.white),),
                   ),
                 ),
               ],
