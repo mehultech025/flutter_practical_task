@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_practical_task/logic/cubit/internet/internet_cubit.dart';
+import 'package:flutter_practical_task/logic/cubit/todo/todo_cubit.dart';
 import 'package:flutter_practical_task/ui/screens/details_screen.dart';
 import 'package:flutter_practical_task/ui/screens/login_screen.dart';
 import 'package:flutter_practical_task/ui/screens/onboarding_screen.dart';
@@ -36,16 +38,42 @@ class AppRouter {
   static _splashNavigationScreen(RouteSettings settings) {
     return MaterialPageRoute(builder: (context) => const SplashScreen());
   }
+
   static _onboardingNavigationScreen(RouteSettings settings) {
     return MaterialPageRoute(builder: (context) => const OnboardingScreen());
   }
+
   static _loginNavigationScreen(RouteSettings settings) {
     return MaterialPageRoute(builder: (context) => const LoginScreen());
   }
+
   static _todoNavigationScreen(RouteSettings settings) {
-    return MaterialPageRoute(builder: (context) => const TodoScreen());
+    return MaterialPageRoute(
+      builder: (context) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => TodoCubit(context.read<InternetCubit>()),
+          ),
+        ],
+        child: const TodoScreen(),
+      ),
+    );
   }
+
   static _detailsNavigationScreen(RouteSettings settings) {
-    return MaterialPageRoute(builder: (context) => const DetailsScreen());
+    final args = settings.arguments as Map;
+    return MaterialPageRoute(
+      builder: (context) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => TodoCubit(context.read<InternetCubit>()),
+          ),
+        ],
+        child: DetailsScreen(
+            index: args['index'],
+            todo: args['todo']
+        ),
+      ),
+    );
   }
 }

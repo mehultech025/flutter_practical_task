@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_practical_task/core/app_colors.dart';
+import 'package:flutter_practical_task/logic/cubit/todo/todo_cubit.dart';
 import 'package:flutter_practical_task/router/app_router.dart';
 import 'package:flutter_practical_task/ui/widgets/add_todo_bottomsheet.dart';
 import 'package:flutter_practical_task/ui/widgets/custom_text.dart';
+import 'package:flutter_practical_task/ui/widgets/no_task_widget.dart';
 import 'package:flutter_practical_task/ui/widgets/todo_card.dart';
+import 'package:flutter_practical_task/utils/constants/constants.dart';
 import 'package:flutter_practical_task/utils/constants/fonts/label_keys.dart';
 
 class TodoScreen extends StatefulWidget {
@@ -15,19 +19,10 @@ class TodoScreen extends StatefulWidget {
 
 class _TodoScreenState extends State<TodoScreen> {
   final TextEditingController _searchController = TextEditingController();
-
-  List<Map<String, String>> allTasks = [
-    {"title": "Design UI", "description": "Create beautiful layout"},
-    {"title": "Timer Feature", "description": "Implement timer logic"},
-    {"title": "Testing", "description": "Test all functionality"},
-  ];
-
-  List<Map<String, String>> filteredTasks = [];
-
+  final FocusNode _searchFocusNode = FocusNode();
   @override
   void initState() {
     super.initState();
-    filteredTasks = allTasks;
   }
 
   void openBottomSheet() {
@@ -35,21 +30,49 @@ class _TodoScreenState extends State<TodoScreen> {
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (_) => const AddTodoBottomSheet(),
+      builder: (_) => BlocProvider.value(
+        value: context.read<TodoCubit>(),
+        child: const AddTodoBottomSheet(),
+      ),
     );
   }
 
-  void _searchTask(String query) {
-    final results = allTasks.where((task) {
-      return task["title"]!
-          .toLowerCase()
-          .contains(query.toLowerCase());
-    }).toList();
+  void _showDeleteDialog(BuildContext parentContext, int index) {
+    showDialog(
+      context: parentContext,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text(deleteTaskKey),
+          content: const Text(deleteTaskMsgKey),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(dialogContext);
+              },
+              child: const Text(cancelKey),
+            ),
 
-    setState(() {
-      filteredTasks = results;
-    });
+            TextButton(
+              onPressed: () {
+                Navigator.pop(dialogContext);
+                parentContext.read<TodoCubit>().deleteTodo(index);
+              },
+              child: const Text(deleteKey),
+            ),
+          ],
+        );
+      },
+    );
   }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _searchController.dispose();
+    _searchFocusNode.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -74,8 +97,7 @@ class _TodoScreenState extends State<TodoScreen> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius:
-              BorderRadius.vertical(bottom: Radius.circular(30)),
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,7 +108,7 @@ class _TodoScreenState extends State<TodoScreen> {
                   color: whiteFFFFFFColor.withOpacity(0.9),
                 ),
                 const SizedBox(height: 6),
-                 CustomText(
+                CustomText(
                   text: myTasksKey,
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
@@ -95,15 +117,19 @@ class _TodoScreenState extends State<TodoScreen> {
                 const SizedBox(height: 20),
                 TextField(
                   controller: _searchController,
-                  onChanged: _searchTask,
+                  focusNode: _searchFocusNode,
+                  onChanged: (value) {
+                    context.read<TodoCubit>().searchTodo(value);
+                  },
                   decoration: InputDecoration(
                     hintText: searchKey,
-                    prefixIcon:
-                    const Icon(Icons.search, color: textSecondaryColor),
+                    prefixIcon: const Icon(
+                      Icons.search,
+                      color: textSecondaryColor,
+                    ),
                     filled: true,
                     fillColor: whiteFFFFFFColor,
-                    contentPadding:
-                    const EdgeInsets.symmetric(vertical: 0),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 0),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(18),
                       borderSide: BorderSide.none,
@@ -115,37 +141,80 @@ class _TodoScreenState extends State<TodoScreen> {
           ),
 
           Expanded(
-            child: ListView.builder(
-              padding:
-              const EdgeInsets.fromLTRB(20, 25, 20, 20),
-              itemCount: filteredTasks.length,
-              itemBuilder: (context, index) {
-                final task = filteredTasks[index];
-                return TodoCard(
-                  title: task["title"]!,
-                  description: task["description"]!,
-                  status: "TODO",
-                  timer: "00:00:00",
-                  onEdit: () {
-                    showModalBottomSheet(
-                      context: context,
-                      backgroundColor: Colors.transparent,
-                      isScrollControlled: true,
-                      builder: (_) => const AddTodoBottomSheet(isEdit: true),
+            child: BlocBuilder<TodoCubit, TodoState>(
+              builder: (context, state) {
+                if (state is TodoLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (state is TodoError) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(state.message),
+                        const SizedBox(height: 10),
+                        ElevatedButton(
+                          onPressed: () {
+                            context.read<TodoCubit>().loadTodos();
+                          },
+                          child: CustomText(text: retryKey, fontSize: 14,),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                if (state is TodoSuccess) {
+                  if (state.todos.isEmpty) {
+                    return const NoTaskWidget(
+                      title: noTaskKey,
+                      subtitle: noTaskMsgKey,
+                      icon: Icons.task_alt,
                     );
-                  },
-                  onDelete: () {
-                    setState(() {
-                      allTasks.remove(task);
-                      filteredTasks.remove(task);
-                    });
-                  },
-                  onTap: () {
-                    AppRouter.navigatorKey.currentState?.pushNamed(
-                      AppRouter.details,
-                    );
-                  },
-                );
+                  }
+                  return ListView.builder(
+                    padding: const EdgeInsets.fromLTRB(20, 25, 20, 20),
+                    itemCount: state.todos.length,
+                    itemBuilder: (context, index) {
+                      final todo = state.todos[index];
+                      return TodoCard(
+                        title: todo.title,
+                        description: todo.description,
+                        status: todo.status,
+                        timer: formatTime(todo.minutes, todo.seconds),
+                        onEdit: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (_) => BlocProvider.value(
+                              value: context.read<TodoCubit>(),
+                              child: AddTodoBottomSheet(
+                                isEdit: true,
+                                index: index,
+                                todo: todo,
+                              ),
+                            ),
+                          );
+                        },
+                        onDelete: () {
+                          _showDeleteDialog(context, index);
+                        },
+                        onTap: () async {
+                          final result = await AppRouter.navigatorKey.currentState?.pushNamed(
+                            AppRouter.details,
+                            arguments: {
+                              "todo": todo,
+                              "index": index,
+                            },
+                          );
+                          if(result == true){
+                            context.read<TodoCubit>().loadTodos();
+                          }
+                        },
+                      );
+                    },
+                  );
+                }
+                return const SizedBox();
               },
             ),
           ),

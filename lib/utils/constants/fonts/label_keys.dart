@@ -4,12 +4,7 @@ const String unKnownErrorKey = "Unknown error occurred";
 const String retryKey = "Retry";
 const String noInternetKey = "No internet connection";
 const String emailKey = "Email";
-const String passwordKey = "Password";
 const String pleaseEnterEmailKey = "please enter email";
-const String pleaseEnterPasswordKey = "please enter password";
-const String pleaseEnterNamedKey = "please enter name";
-const String forgotPasswordKey = "Forgot Password ?";
-const String orContinueWithKey = "Or continue with";
 const String noAccountKey = "Don't have an account?";
 const String alreadyHaveAccountKey = "Already have an account?";
 const String welcomeKey = "Hello 👋";
@@ -20,6 +15,17 @@ const String fillDetailsBelowKey = "Fill the details below";
 const String enterTaskTitleKey = "Enter task title";
 const String enterTaskTDescriptionKey = "Enter task description";
 const String maxTimeKey = "Time (Max 5 Minutes)";
+const String addTaskMsgKey = "Task added successfully";
+const String deleteTaskMsgKey = "Are you sure you want to delete this task?";
+const pleaseWaitKey = "Please Wait...";
+const enterTitleErrorKey = "Please enter the title";
+const enterDescriptionErrorKey = "Please enter the description";
+const secondsRangeErrorKey = "Seconds must be between 0 and 59.";
+const zeroDurationErrorKey =
+    "Task duration cannot be 0. Please enter a valid time.";
+const maxDurationErrorKey =
+    "Task duration cannot exceed 5 minutes.";
+
 
 const String skipKey = "Skip";
 const String myTasksKey = "My Tasks";
@@ -43,6 +49,11 @@ const String saveKey = "Save";
 const String cancelKey = "Cancel";
 const String editKey = "Edit";
 const String deleteKey = "Delete";
+const todoStatusKey = "TODO";
+const pausedStatusKey = "Paused";
+const deleteTaskKey = "Delete Task";
+const noTaskKey = "No Tasks Yet";
+const noTaskMsgKey = "Tap the + button to create your first task.";
 
 
 

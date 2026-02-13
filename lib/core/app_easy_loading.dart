@@ -6,6 +6,20 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'dart:math';
 
 import 'app_colors.dart' show purple8D15FFColor;
+
+Widget loaderWidget() {
+  return Center(
+    child: SizedBox(
+      height: 32,
+      width: 32,
+      child: CircularProgressIndicator(
+        color: purple8D15FFColor,
+        strokeWidth: 3,
+      ),
+    ),
+  );
+}
+
 easyLoadingShowProgress({
   String? status,
   Widget? indicator,

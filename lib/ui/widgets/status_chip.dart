@@ -13,6 +13,7 @@ class StatusChip extends StatelessWidget {
   Widget build(BuildContext context) {
     Color bgColor;
 
+
     switch (status) {
       case inProgressStatusKey:
         bgColor = purple8D15FFColor;
@@ -20,10 +21,12 @@ class StatusChip extends StatelessWidget {
       case doneStatusKey:
         bgColor = green30D158Color;
         break;
+      case pausedStatusKey:
+        bgColor = Colors.orange;
+        break;
       default:
         bgColor = blue007AFFColor;
     }
-
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
       decoration: BoxDecoration(

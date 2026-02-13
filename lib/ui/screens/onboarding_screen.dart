@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_practical_task/logic/onboarding/onboarding_cubit.dart';
+import 'package:flutter_practical_task/logic/cubit/onboarding/onboarding_cubit.dart';
 import 'package:flutter_practical_task/ui/widgets/onboarding_page.dart';
 import 'package:flutter_practical_task/utils/constants/constants.dart';
 import 'package:flutter_practical_task/utils/constants/fonts/label_keys.dart';

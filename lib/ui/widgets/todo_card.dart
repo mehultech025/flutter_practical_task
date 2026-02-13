@@ -30,6 +30,8 @@ class TodoCard extends StatelessWidget {
         return purple8D15FFColor;
       case doneStatusKey:
         return green30D158Color;
+      case pausedStatusKey:
+        return Colors.orange;
       default:
         return blue007AFFColor;
     }
@@ -56,7 +58,6 @@ class TodoCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-
             Container(
               width: 6,
               height: 120,
@@ -145,6 +146,7 @@ class TodoCard extends StatelessWidget {
                       text: description,
                       fontSize: 13,
                       color: textSecondaryColor,
+                      overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                     ),
 
