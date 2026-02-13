@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_practical_task/utils/constants/fonts/label_keys.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_practical_task/router/app_router.dart';
 import 'package:flutter_practical_task/core/app_colors.dart';
@@ -37,7 +38,7 @@ class CustomLogoutDialog extends StatelessWidget {
             const SizedBox(height: 20),
 
             const Text(
-              "Logout",
+              logoutKey ,
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -47,7 +48,7 @@ class CustomLogoutDialog extends StatelessWidget {
             const SizedBox(height: 10),
 
             const Text(
-              "Are you sure you want to logout?",
+              logoutMsgKey ,
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black54),
             ),
@@ -67,7 +68,7 @@ class CustomLogoutDialog extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: const Text("Cancel"),
+                    child:  Text(cancelKey),
                   ),
                 ),
 
@@ -92,7 +93,7 @@ class CustomLogoutDialog extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: const Text("Logout",style: TextStyle(color: Colors.white),),
+                    child: const Text(logoutKey,style: TextStyle(color: Colors.white),),
                   ),
                 ),
               ],

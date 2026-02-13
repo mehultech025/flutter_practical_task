@@ -60,6 +60,13 @@ const pausedStatusKey = "Paused";
 const deleteTaskKey = "Delete Task";
 const noTaskKey = "No Tasks Yet";
 const noTaskMsgKey = "Tap the + button to create your first task.";
+const String nameEmptyKey = "Name cannot be empty!";
+const String emailEmptyKey = "Email address cannot be empty!";
+const String passwordEmptyKey = "Password cannot be empty!";
+const String passwordLengthKey = "Password must be at least 6 characters.";
+const String logoutKey = "Logout";
+const String logoutMsgKey = "Are you sure you want to logout?";
+
 
 
 

@@ -20,11 +20,11 @@ class LoginCubit extends Cubit<LoginState> {
     if (!internetCubit.state) {
       emit(LoginError(noInternetKey));
     } else if (name.isEmpty) {
-      emit(LoginError("Name cannot be empty!."));
+      emit(LoginError(nameEmptyKey));
     } else if (email.isEmpty) {
-      emit(LoginError("Email address cannot be empty!."));
+      emit(LoginError(emailEmptyKey));
     } else if (password.isEmpty) {
-      emit(LoginError("password can not be empty!."));
+      emit(LoginError(passwordEmptyKey));
     } else {
       try {
         emit(LoginLoading());

@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_practical_task/data/models/todo_model.dart';
 import 'package:flutter_practical_task/logic/cubit/internet/internet_cubit.dart';
@@ -115,7 +114,7 @@ class TodoCubit extends Cubit<TodoState> {
         title: "Task Deleted",
         body: "Task deleted successfully",
       );
-      _checkAndStopService();
+      // _checkAndStopService();
     } catch (e) {
       emit(TodoError(defaultErrorMessageKey));
     }
@@ -190,7 +189,7 @@ class TodoCubit extends Cubit<TodoState> {
         box.putAt(index, updatedTodo);
 
         emit(TodoSuccess(box.values.toList(), message: ""));
-        _checkAndStartService();
+        // _checkAndStartService();
       } else {
         timer.cancel();
         updateStatus(index: index, status: doneStatusKey);
@@ -204,7 +203,7 @@ class TodoCubit extends Cubit<TodoState> {
     if (_runningIndex != -1) {
       updateStatus(index: _runningIndex, status: pausedStatusKey);
     }
-    _checkAndStartService();
+    // _checkAndStartService();
   }
 
   void stopTimer(int index) {
@@ -224,34 +223,34 @@ class TodoCubit extends Cubit<TodoState> {
     box.putAt(index, resetTodo);
 
     emit(TodoSuccess(box.values.toList(), message: ""));
-    _checkAndStopService();
+    // _checkAndStopService();
   }
 
-  Future<void> _checkAndStartService() async {
+  // Future<void> _checkAndStartService() async {
+  //
+  //   final hasActiveTask = box.values.any((todo) =>
+  //   todo.status == inProgressStatusKey ||
+  //       todo.status == pauseStatusKey);
+  //
+  //   if (hasActiveTask) {
+  //     print("🟢 Active task found → Starting service");
+  //     BackgroundService.start();
+  //   } else {
+  //     print("⚪ No active task → Not starting service");
+  //   }
+  // }
 
-    final hasActiveTask = box.values.any((todo) =>
-    todo.status == inProgressStatusKey ||
-        todo.status == pauseStatusKey);
-
-    if (hasActiveTask) {
-      print("🟢 Active task found → Starting service");
-      BackgroundService.start();
-    } else {
-      print("⚪ No active task → Not starting service");
-    }
-  }
-
-  void _checkAndStopService() {
-
-    final hasActiveTask = box.values.any((todo) =>
-    todo.status == inProgressStatusKey ||
-        todo.status == pauseStatusKey);
-
-    if (!hasActiveTask) {
-      print("🔴 No active task → Stopping service");
-      BackgroundService.stop();
-    }
-  }
+  // void _checkAndStopService() {
+  //
+  //   final hasActiveTask = box.values.any((todo) =>
+  //   todo.status == inProgressStatusKey ||
+  //       todo.status == pauseStatusKey);
+  //
+  //   if (!hasActiveTask) {
+  //     print("🔴 No active task → Stopping service");
+  //     BackgroundService.stop();
+  //   }
+  // }
 
 
 
