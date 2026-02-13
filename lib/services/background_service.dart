@@ -27,6 +27,7 @@ class BackgroundService {
     );
   }
 
+
   static void start() {
     FlutterBackgroundService().startService();
   }

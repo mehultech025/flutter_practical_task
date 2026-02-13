@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_practical_task/core/bloc_and_repositories_app.dart';
+import 'package:flutter_practical_task/dart_task.dart';
 import 'package:flutter_practical_task/data/models/todo_model.dart';
 import 'package:flutter_practical_task/services/background_service.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -14,6 +15,7 @@ import 'core/app.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
+  ref();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await BackgroundService.init();
