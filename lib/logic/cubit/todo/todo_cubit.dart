@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_practical_task/data/models/todo_model.dart';
 import 'package:flutter_practical_task/logic/cubit/internet/internet_cubit.dart';
+import 'package:flutter_practical_task/services/background_service.dart';
+import 'package:flutter_practical_task/services/notification_services.dart';
 import 'package:flutter_practical_task/utils/constants/fonts/label_keys.dart';
 import 'package:hive/hive.dart';
 
@@ -53,8 +55,13 @@ class TodoCubit extends Cubit<TodoState> {
           createdAt: DateTime.now(),
         ),
       );
-
       loadTodos();
+      NotificationService.showNotification(
+        id: DateTime.now().millisecondsSinceEpoch ~/ 1000,
+        title: "Task Added",
+        body: "$title added successfully",
+      );
+
     } catch (e) {
       emit(TodoError(defaultErrorMessageKey));
     }
@@ -84,6 +91,11 @@ class TodoCubit extends Cubit<TodoState> {
       final updatedList = box.values.toList();
 
       emit(TodoSuccess(updatedList, message: "Task updated successfully"));
+      NotificationService.showNotification(
+        id: DateTime.now().millisecondsSinceEpoch ~/ 1000,
+        title: "Task Updated",
+        body: "$title updated successfully",
+      );
     } catch (e) {
       emit(TodoError(defaultErrorMessageKey));
     }
@@ -98,6 +110,12 @@ class TodoCubit extends Cubit<TodoState> {
       final updatedList = box.values.toList();
 
       emit(TodoSuccess(updatedList, message: "Task deleted successfully"));
+      NotificationService.showNotification(
+        id: DateTime.now().millisecondsSinceEpoch ~/ 1000,
+        title: "Task Deleted",
+        body: "Task deleted successfully",
+      );
+      _checkAndStopService();
     } catch (e) {
       emit(TodoError(defaultErrorMessageKey));
     }
@@ -172,6 +190,7 @@ class TodoCubit extends Cubit<TodoState> {
         box.putAt(index, updatedTodo);
 
         emit(TodoSuccess(box.values.toList(), message: ""));
+        _checkAndStartService();
       } else {
         timer.cancel();
         updateStatus(index: index, status: doneStatusKey);
@@ -185,6 +204,7 @@ class TodoCubit extends Cubit<TodoState> {
     if (_runningIndex != -1) {
       updateStatus(index: _runningIndex, status: pausedStatusKey);
     }
+    _checkAndStartService();
   }
 
   void stopTimer(int index) {
@@ -204,7 +224,36 @@ class TodoCubit extends Cubit<TodoState> {
     box.putAt(index, resetTodo);
 
     emit(TodoSuccess(box.values.toList(), message: ""));
+    _checkAndStopService();
   }
+
+  Future<void> _checkAndStartService() async {
+
+    final hasActiveTask = box.values.any((todo) =>
+    todo.status == inProgressStatusKey ||
+        todo.status == pauseStatusKey);
+
+    if (hasActiveTask) {
+      print("🟢 Active task found → Starting service");
+      BackgroundService.start();
+    } else {
+      print("⚪ No active task → Not starting service");
+    }
+  }
+
+  void _checkAndStopService() {
+
+    final hasActiveTask = box.values.any((todo) =>
+    todo.status == inProgressStatusKey ||
+        todo.status == pauseStatusKey);
+
+    if (!hasActiveTask) {
+      print("🔴 No active task → Stopping service");
+      BackgroundService.stop();
+    }
+  }
+
+
 
   @override
   Future<void> close() {

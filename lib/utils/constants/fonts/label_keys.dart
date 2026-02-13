@@ -1,9 +1,12 @@
 const String splashKey = "My Awesome App";
+const String welcomeBackKey = "Welcome Back";
 const String defaultErrorMessageKey = "Something went wrong";
 const String unKnownErrorKey = "Unknown error occurred";
 const String retryKey = "Retry";
 const String noInternetKey = "No internet connection";
 const String emailKey = "Email";
+const String nameKey = "Full Name";
+const String passwordKey = "Password";
 const String pleaseEnterEmailKey = "please enter email";
 const String noAccountKey = "Don't have an account?";
 const String alreadyHaveAccountKey = "Already have an account?";
@@ -28,6 +31,9 @@ const maxDurationErrorKey =
 
 
 const String skipKey = "Skip";
+const String loginKey = "Login";
+const String todoManagerKey = "Todo Manager";
+const String todoManagerTaskKey = "Manage your tasks efficiently";
 const String myTasksKey = "My Tasks";
 const String searchKey = "Search by title...";
 const String editTaskKey = "Edit Task";
@@ -40,7 +46,7 @@ const String inProgressStatusKey = "In-Progress";
 const String doneStatusKey = "Done";
 const String runningTimerKey = "Running Timer";
 const String playStatusKey = "Play";
-const String pauseStatusKey = "Pause";
+const String pauseStatusKey = "Paused";
 const String stopStatusKey = "Stop";
 const String minutesKey = "Minutes";
 const String secondKey = "seconds";
