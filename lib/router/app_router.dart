@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_practical_task/logic/cubit/internet/internet_cubit.dart';
+import 'package:flutter_practical_task/logic/cubit/login/login_cubit.dart';
 import 'package:flutter_practical_task/logic/cubit/todo/todo_cubit.dart';
 import 'package:flutter_practical_task/ui/screens/details_screen.dart';
 import 'package:flutter_practical_task/ui/screens/login_screen.dart';
@@ -44,7 +45,16 @@ class AppRouter {
   }
 
   static _loginNavigationScreen(RouteSettings settings) {
-    return MaterialPageRoute(builder: (context) => const LoginScreen());
+    return MaterialPageRoute(
+        builder: (context) => MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => LoginCubit(context.read<InternetCubit>()),
+        ),
+      ],
+      child: LoginScreen()
+    ),
+    );
   }
 
   static _todoNavigationScreen(RouteSettings settings) {

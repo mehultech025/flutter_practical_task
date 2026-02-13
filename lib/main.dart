@@ -1,19 +1,24 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_practical_task/core/bloc_and_repositories_app.dart';
 import 'package:flutter_practical_task/data/models/todo_model.dart';
+import 'package:flutter_practical_task/services/background_service.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'core/app.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await BackgroundService.init();
   await Hive.initFlutter();
-
+  await Hive.openBox('auth');
   Hive.registerAdapter(TodoModelAdapter());
 
   await Hive.openBox<TodoModel>('todos');

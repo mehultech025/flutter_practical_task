@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_practical_task/core/app_colors.dart';
 import 'package:flutter_practical_task/logic/cubit/todo/todo_cubit.dart';
 import 'package:flutter_practical_task/router/app_router.dart';
+import 'package:flutter_practical_task/ui/dialogue_box/custom_logout_dialog.dart';
 import 'package:flutter_practical_task/ui/widgets/add_todo_bottomsheet.dart';
 import 'package:flutter_practical_task/ui/widgets/custom_text.dart';
 import 'package:flutter_practical_task/ui/widgets/no_task_widget.dart';
@@ -20,11 +21,15 @@ class TodoScreen extends StatefulWidget {
 class _TodoScreenState extends State<TodoScreen> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
-  @override
-  void initState() {
-    super.initState();
-  }
 
+
+  void _showLogoutDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const CustomLogoutDialog(),
+    );
+  }
   void openBottomSheet() {
     showModalBottomSheet(
       context: context,
@@ -73,7 +78,6 @@ class _TodoScreenState extends State<TodoScreen> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,19 +106,34 @@ class _TodoScreenState extends State<TodoScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomText(
-                  text: welcomeKey,
-                  fontSize: 14,
-                  color: whiteFFFFFFColor.withOpacity(0.9),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomText(
+                      text: welcomeKey,
+                      fontSize: 14,
+                      color: whiteFFFFFFColor.withOpacity(0.9),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        _showLogoutDialog();
+                      },
+                      icon: const Icon(Icons.logout, color: whiteFFFFFFColor),
+                    ),
+                  ],
                 ),
+
                 const SizedBox(height: 6),
+
                 CustomText(
                   text: myTasksKey,
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
                   color: whiteFFFFFFColor,
                 ),
+
                 const SizedBox(height: 20),
+
                 TextField(
                   controller: _searchController,
                   focusNode: _searchFocusNode,
@@ -157,7 +176,7 @@ class _TodoScreenState extends State<TodoScreen> {
                           onPressed: () {
                             context.read<TodoCubit>().loadTodos();
                           },
-                          child: CustomText(text: retryKey, fontSize: 14,),
+                          child: CustomText(text: retryKey, fontSize: 14),
                         ),
                       ],
                     ),
@@ -199,14 +218,14 @@ class _TodoScreenState extends State<TodoScreen> {
                           _showDeleteDialog(context, index);
                         },
                         onTap: () async {
-                          final result = await AppRouter.navigatorKey.currentState?.pushNamed(
-                            AppRouter.details,
-                            arguments: {
-                              "todo": todo,
-                              "index": index,
-                            },
-                          );
-                          if(result == true){
+                          final result = await AppRouter
+                              .navigatorKey
+                              .currentState
+                              ?.pushNamed(
+                                AppRouter.details,
+                                arguments: {"todo": todo, "index": index},
+                              );
+                          if (result == true) {
                             context.read<TodoCubit>().loadTodos();
                           }
                         },
